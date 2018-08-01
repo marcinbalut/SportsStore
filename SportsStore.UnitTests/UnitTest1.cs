@@ -29,13 +29,13 @@ namespace SportsStore.UnitTests
             controller.PageSize = 3;
 
             //act
-            //IEnumerable<Product> result = (IEnumerable<Product>)controller.List(2).Model;
+            IEnumerable<Product> result = (IEnumerable<Product>)controller.List(2).Model;
 
             //assert
-            //Product[] prodArray = result.ToArray();
-            //Assert.IsTrue(prodArray.Length == 2);
-            //Assert.AreEqual(prodArray[0].Name, "P4");
-            //Assert.AreEqual(prodArray[1].Name, "P5");
+            Product[] prodArray = result.ToArray();
+            Assert.IsTrue(prodArray.Length == 2);
+            Assert.AreEqual(prodArray[0].Name, "P4");
+            Assert.AreEqual(prodArray[1].Name, "P5");
 
 
         }
