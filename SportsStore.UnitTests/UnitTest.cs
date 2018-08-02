@@ -9,6 +9,7 @@ using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
 using SportsStore.WebUI.HtmlHelpers;
 using SportsStore.WebUI.Models;
+using Microsoft.CSharp;
 
 namespace SportsStore.UnitTests
 {
@@ -139,6 +140,56 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(result[2], "Śliwki");
         }
 
+        [TestMethod]
+        public void Indicates_Selected_Category()
+        {
+            //arrange
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(
+                new Product[] {
+                    new Product { ProductID = 1, Name = "P1", Category = "Jabłka"},
+                    new Product { ProductID = 4, Name = "P2", Category = "Pomarańcze"}
+            });
+
+            NavController target = new NavController(mock.Object);
+            string categoryToSelect = "Jabłka";
+
+            //act
+            string result = target.Menu(categoryToSelect).ViewBag.SelectedCategory;
+
+            //assert
+            Assert.AreEqual(categoryToSelect, result);
+        }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Product_Count()
+        {
+            //arrange 
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[] 
+            {
+                new Product { ProductID = 1, Name = "P1", Category = "Cat1"},
+                new Product { ProductID = 2, Name = "P2", Category = "Cat2"},
+                new Product { ProductID = 3, Name = "P3", Category = "Cat1"},
+                new Product { ProductID = 4, Name = "P4", Category = "Cat2"},
+                new Product { ProductID = 5, Name = "P5", Category = "Cat3"}
+            });
+
+            ProductController target = new ProductController(mock.Object);
+            target.PageSize = 3;
+
+            //act
+            int res1 = ((ProductsListViewModel)target.List("Cat1").Model).PagingInfo.TotalItems;
+            int res2 = ((ProductsListViewModel)target.List("Cat2").Model).PagingInfo.TotalItems;
+            int res3 = ((ProductsListViewModel)target.List("Cat3").Model).PagingInfo.TotalItems;
+            int resAll = ((ProductsListViewModel)target.List(null).Model).PagingInfo.TotalItems;
+
+            //assert
+            Assert.AreEqual(res1, 2);
+            Assert.AreEqual(res2, 2);
+            Assert.AreEqual(res3, 1);
+            Assert.AreEqual(resAll, 5);
+        }
 
     }
 }
