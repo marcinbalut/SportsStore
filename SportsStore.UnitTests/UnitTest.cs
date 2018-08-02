@@ -17,7 +17,7 @@ namespace SportsStore.UnitTests
     public class UnitTest
     {
         [TestMethod]
-        public void Can_paginate()
+        public void Can_Paginate()
         {
             //arrange
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
@@ -42,7 +42,7 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(prodArray[1].Name, "P5");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Can_Generate_Page_Links()
         {
             //arrange
