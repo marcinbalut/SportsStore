@@ -4,6 +4,7 @@ using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Concrete;
 using SportsStore.Domain.Entities;
 using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,7 +22,6 @@ namespace SportsStore.WebUI.Infrastructure
             AddBindings();
         }
 
-
         public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
@@ -32,18 +32,16 @@ namespace SportsStore.WebUI.Infrastructure
             return kernel.GetAll(serviceType);
         }
 
-
         private void AddBindings()
         {
-            //Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            //mock.Setup(m => m.Products).Returns( new List<Product>
-            //{
-            //    new Product{ Name = "Piłka nożna", Price = 25},
-            //    new Product{ Name = "Deska surfingowa", Price = 179},
-            //    new Product{ Name = "Buty do biegania", Price = 95},
-            //});
-
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", emailSettings);
         }
     }
 }
