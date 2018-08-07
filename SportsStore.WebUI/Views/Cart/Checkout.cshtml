@@ -9,6 +9,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary()
+
     <h3>Wysyłka dla</h3>
     <div class="form-group">
         <label>Nazwisko</label>
@@ -27,39 +29,6 @@
             </div>
         }
     }
-
-    @*<div class="form-group">
-        <label>Wiersz 1:</label>
-        @Html.TextBoxFor(x => x.Line1, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label>Wiersz 2:</label>
-        @Html.TextBoxFor(x => x.Line2, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label>Wiersz 3:</label>
-        @Html.TextBoxFor(x => x.Line3, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Miasto:</label>
-        @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Województwo:</label>
-        @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Kod pocztowy:</label>
-        @Html.TextBoxFor(x => x.Zip, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Kraj:</label>
-        @Html.TextBoxFor(x => x.Country, new { @class = "form-control" })
-    </div>*@
 
     <h3>Opcje</h3>
     <div class="checkbox">
