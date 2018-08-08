@@ -1,0 +1,4 @@
+﻿Installed packages:
+
+s294
+Install-Package Microsoft.jQuery.Unobtrusive.Validation -version 3.0.0 -projectname SportsStore.WebUI
