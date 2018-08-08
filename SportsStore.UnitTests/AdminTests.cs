@@ -58,7 +58,6 @@ namespace SportsStore.UnitTests
         public void Cannot_Save_Invalid_Changes()
         {
             //arrange
-            //arrange
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
             AdminController target = new AdminController(mock.Object);
             Product product = new Product { Name = "Test" };
@@ -69,6 +68,27 @@ namespace SportsStore.UnitTests
 
             mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never());
             Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Can_Delete_Valid_Products()
+        {
+            //arrange
+            Product product = new Product {ProductID = 2, Name = "Test"};
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[] {
+                new Product{ ProductID = 1, Name = "P1"},
+                product,
+                new Product{ ProductID = 3, Name = "P3"}
+            });
+
+            AdminController target = new AdminController(mock.Object);
+
+            //act
+            target.Delete(product.ProductID);
+
+            //assert
+            mock.Verify(m => m.DeleteProduct(product.ProductID));
         }
     }
 }
